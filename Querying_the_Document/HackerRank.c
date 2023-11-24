@@ -14,20 +14,20 @@ enum SPLIT
 
 int paragraphCount, sentenceCount, wordCount;
 
-// char* kth_word_in_mth_sentence_of_nth_paragraph(char**** document, int k, int m, int n) 
-// {
+char* kth_word_in_mth_sentence_of_nth_paragraph(char**** document, int k, int m, int n) 
+{
+    return document[k][m][n];
+}
 
-// }
+char** kth_sentence_in_mth_paragraph(char**** document, int k, int m) 
+{ 
+    return document[k][m];
+}   
 
-// char** kth_sentence_in_mth_paragraph(char**** document, int k, int m) 
-// { 
-
-// }
-
-// char*** kth_paragraph(char**** document, int k) 
-// {
-
-// }
+char*** kth_paragraph(char**** document, int k) 
+{
+    return document[k];
+}
 
 
 
@@ -98,10 +98,30 @@ char** split(char* text, enum SPLIT textType)
     return results;
 }
 
-// char**** get_document(char* text) 
-// {
+char**** get_document(char* text) 
+{
+    char** currentParagraph, currentSentence, currentWord;
+    char** currentParagraph = split(text, SPLIT_PARAGRAPH);
+    char**** document = (char****)calloc(paragraphCount, sizeof(char***));
+    char*** paragraph;
+    char** sentence;
 
-// }
+    for (int i = 0; i < paragraphCount; i++) 
+    {
+        currentSentence = split(currentParagraph[i], SPLIT_SENTNECE);
+        paragraph = (char***)calloc(sentenceCount, sizeof(char**));
+
+        for (int j = 0; j < sentenceCount; j++)
+        {
+            currentWord = split(currentSentence[j], SPLIT_WORD);
+            sentence = (char**)calloc(wordCount, sizeof(char*));
+            paragraph[j] = sentence;
+        }
+        document[i] = paragraph;
+    }
+    
+    return document;
+}
 
 
 char* get_input_text() {	
@@ -158,35 +178,35 @@ int main()
     }
 
 
-    // char**** document = get_document(text);
+    char**** document = get_document(text);
 
-    // int q;
-    // scanf("%d", &q);
+    int q;
+    scanf("%d", &q);
 
-    // while (q--) {
-    //     int type;
-    //     scanf("%d", &type);
+    while (q--) {
+        int type;
+        scanf("%d", &type);
 
-    //     if (type == 3){
-    //         int k, m, n;
-    //         scanf("%d %d %d", &k, &m, &n);
-    //         char* word = kth_word_in_mth_sentence_of_nth_paragraph(document, k, m, n);
-    //         print_word(word);
-    //     }
+        if (type == 3){
+            int k, m, n;
+            scanf("%d %d %d", &k, &m, &n);
+            char* word = kth_word_in_mth_sentence_of_nth_paragraph(document, k, m, n);
+            print_word(word);
+        }
 
-    //     else if (type == 2){
-    //         int k, m;
-    //         scanf("%d %d", &k, &m);
-    //         char** sentence = kth_sentence_in_mth_paragraph(document, k, m);
-    //         print_sentence(sentence);
-    //     }
+        else if (type == 2){
+            int k, m;
+            scanf("%d %d", &k, &m);
+            char** sentence = kth_sentence_in_mth_paragraph(document, k, m);
+            print_sentence(sentence);
+        }
 
-    //     else{
-    //         int k;
-    //         scanf("%d", &k);
-    //         char*** paragraph = kth_paragraph(document, k);
-    //         print_paragraph(paragraph);
-    //     }
-    //     printf("\n");
-    // }     
+        else{
+            int k;
+            scanf("%d", &k);
+            char*** paragraph = kth_paragraph(document, k);
+            print_paragraph(paragraph);
+        }
+        printf("\n");
+    }     
 }
