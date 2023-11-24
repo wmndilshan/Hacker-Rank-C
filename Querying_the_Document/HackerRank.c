@@ -100,8 +100,8 @@ char** split(char* text, enum SPLIT textType)
 
 char**** get_document(char* text) 
 {
-    char** currentParagraph, currentSentence, currentWord;
-    char** currentParagraph = split(text, SPLIT_PARAGRAPH);
+    char **currentParagraph, **currentSentence, **currentWord;
+    currentParagraph = split(text, SPLIT_PARAGRAPH);
     char**** document = (char****)calloc(paragraphCount, sizeof(char***));
     char*** paragraph;
     char** sentence;
@@ -169,15 +169,6 @@ void print_paragraph(char*** paragraph) {
 int main() 
 {
     char* text = get_input_text();
-    char** paragraphs = split(text, SPLIT_PARAGRAPH);
-
-
-    for (int i = 0; i < paragraphCount; i++) 
-    {
-        printf("%s\n", paragraphs[i]);
-    }
-
-
     char**** document = get_document(text);
 
     int q;
